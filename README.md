@@ -1,6 +1,6 @@
 
-###Description
-#####This is an Express.js project with MongoDB database and Mongoose that allows to create, read, update and delete todo list
+### Description
+##### This is an Express.js project with MongoDB database and Mongoose that allows to create, read, update and delete todo list
 
 ## Available Scripts
 
@@ -17,7 +17,7 @@ To start tests you can run:
 
 ### `npm test`
 
-##Examples
+## Examples
 - to add todo task:
 ```
 POST /todos
