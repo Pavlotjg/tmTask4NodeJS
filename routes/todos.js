@@ -7,7 +7,7 @@ const Joi = require('@hapi/joi');
 const validator = require('express-joi-validation').createValidator({});
 
 const todoItemPostSchema = Joi.object({
-  name: Joi.string().min(3).max(10).required(),
+  name: Joi.string().min(3).max(30).required(),
   description: Joi.string().max(60),
   isDone: Joi.boolean()
 });
@@ -45,8 +45,8 @@ router.post('/', validator.body(todoItemPostSchema), async function (req, res) {
 
 router.delete('/:id', async function (req, res) {
   const {id} = req.params;
-  await Todo.deleteOne({_id: id});
   try {
+    await Todo.deleteOne({_id: id});
     res.status(200);
     res.send(`Todo with id: ${id} was successfully deleted`);
   }catch (e) {
@@ -59,9 +59,14 @@ router.put('/:id', validator.body(todoItemPutSchema), async function (req, res) 
   try {
     const {id} = req.params;
     const upd = await Todo.findOneAndUpdate({_id: id}, {$set: {...req.body}});
-    const msg = `todo item with id: ${id} was successfully updated!`;
-    res.status(200);
-    res.send(msg);
+    if(!upd){
+      res.status(400);
+      res.send('There is no item with such id')
+    } else {
+      const msg = `todo item with id: ${id} was successfully updated!`;
+      res.status(200);
+      res.send(msg);
+    }
   } catch (e) {
       res.status(500);
       res.send('Internal Server Error');

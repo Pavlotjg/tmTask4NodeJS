@@ -7,13 +7,12 @@ var logger = require('morgan');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/todos');
 
-const mongoose = require('mongoose');
-mongoose.connect('mongodb+srv://Pavlo:654321bonic@clustercapadastr.wlma4.mongodb.net/Test?retryWrites=true&w=majority', {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-  useFindAndModify: false,
-  useCreateIndex: true
-}).then((props) => console.log('Connection successful', props));
+const {connectDB} = require('./db-connection');
+
+connectDB(process.env.NODE_ENV)
+  .then(() => {
+    console.log('Connection successful');
+  });
 
 var app = express();
 
